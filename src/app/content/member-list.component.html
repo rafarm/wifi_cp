@@ -1,0 +1,8 @@
+<div class="member-list-wrapper">
+  <mat-chip-list [disabled]="disabled">
+    <mat-chip *ngFor="let member of value" selectable="false" removable="true" (remove)="remove(member)">
+      {{member.displayName}}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+</div>

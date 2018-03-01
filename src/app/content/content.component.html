@@ -1,0 +1,8 @@
+<nav mat-tab-nav-bar>
+<div style="display: flex;">
+  <span class="fill"></span>
+  <a mat-tab-link *ngFor="let tab of tabs" [routerLink]="tab.link" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">{{tab.label}}</a>
+  <span class="fill"></span>
+</div>
+</nav>
+<router-outlet></router-outlet>

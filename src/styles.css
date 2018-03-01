@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~material-design-icons/iconfont/material-icons.css";
+
+.fill {
+  flex: 1 1 auto;
+}
+
+.wifi-table {
+  margin-bottom: 75px;
+}
+
+.wifi-add-button {
+  z-index: 250;
+  position: fixed !important;
+  bottom: 10px;
+  right: 10px;
+}

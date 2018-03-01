@@ -1,0 +1,49 @@
+<html>
+    <head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Wifi - IES Gilabert de Centelles</title>
+	<meta name="description" content="Panell de control d'accés a la Wifi">
+	<meta name="author" content="Rafa Rubio">
+	<link rel="icon" type="image/png" href="../favicon.ico">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+    </head>
+    <body>
+	<div style="height: 100%; display: flex; align-items: center; justify-content: center">
+	    <div class="card">
+		<div class="card-content">
+      		    <div class="row">
+                    	<div class="col s5">
+		    	    <img src="../assets/logo-centre.png" width="100" alt="IES Gilabert de Centelles">
+		    	</div>
+			<div class="col s7">
+		    	    <span class="card-title">Panel Wifi</span>
+		    	    <p class="grey-text">Control d'accés a la Wifi</p>
+			</div>
+		    </div>
+		    <% if (error) { %>
+		    <div class="card red" role="alert">
+	                <div class="card-content white-text">
+			     <strong><%= error %></strong>
+		    	</div>
+		    </div>
+		    <% } %>
+		    <form action="/login" method="post">
+    	                <div class="input-field col12">
+        		    <input id="username" type="text" name="username">
+			    <label for="username">nom d'usuari</label>
+    	                </div>
+    		        <div class="input-field col12">
+        		    <input id="password" type="password" name="password">
+			    <label for="password">contrasenya</label>
+    		        </div>
+        	        <button type="submit" class="btn waves-effect">Entra</button>
+		    </form>
+		</div>
+	    </div>
+	</div>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    </body>
+</html>

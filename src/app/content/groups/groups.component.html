@@ -1,0 +1,30 @@
+<group-detail [grouping]="selectedGrouping" (onSaved)="onSaved($event)"></group-detail>
+<button mat-fab color="primary" [disabled]="selectedGrouping!=null" (click)="addNewGrouping()" class="wifi-add-button">
+  <mat-icon>add</mat-icon>
+</button>
+<mat-table [dataSource]="groupingsDataSource" class="wifi-table">
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+    <mat-cell *matCellDef="let grouping">{{grouping.name}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef>Descripció</mat-header-cell>
+    <mat-cell *matCellDef="let grouping">{{grouping.description}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let grouping">
+      <div style="display:flex;">
+        <span class="fill"></span>
+        <button mat-icon-button color="primary" [disabled]="selectedGrouping!=null" (click)="selectedGrouping=grouping">
+          <mat-icon>mode_edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" [disabled]="selectedGrouping!=null" (click)="deleteGrouping(grouping)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="['name', 'description', 'actions']"></mat-header-row>
+  <mat-row *matRowDef="let rowData; columns: ['name', 'description', 'actions']"></mat-row>
+</mat-table>

@@ -1,0 +1,102 @@
+<mat-card class="grouping-form">
+  <form *ngIf="smallWidth" [formGroup]="groupingForm" novalidate>
+    <div class="data-input">
+      <div class="data-identity">
+        <mat-form-field>
+          <input matInput formControlName="name" placeholder="Nom">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="description" placeholder="Descripció">
+        </mat-form-field>
+        <span class="fill"></span>
+        <div>
+          <button mat-raised-button color="warn" [disabled]="grouping==null" (click)="revert()">Descarta</button>
+          <button mat-raised-button color="primary" [disabled]="groupingForm.pristine || groupingForm.invalid" (click)="submit()">Desa</button>
+        </div>
+      </div>
+      <div class="data-members">
+	<div class="member-selector">
+          <mat-form-field>
+            <mat-select [(value)]="selectedGroup" (selectionChange)="groupSelectChanged($event)" placeholder="Grup" [disabled]="groups==null || grouping==null">
+              <mat-option *ngFor="let group of groups" [value]="group.cn">
+                {{group.displayName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select [(value)]="selectedGroupMembers" (selectionChange)="groupMemberSelectChanged($event)" placeholder="Membres del grup" [disabled]="groupMembers==null || grouping==null" multiple>
+              <mat-select-trigger>
+                {{selectedGroupMembers?'('+selectedGroupMembers.length+(selectedGroupMembers.length>1?' seleccionats)':' seleccionat)'):''}}
+              </mat-select-trigger>
+              <mat-option *ngFor="let user of groupMembers" [value]="user.uid">
+                {{user.displayName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-checkbox [checked]="allMembersSelected" [indeterminate]="someMembersSelected" (change)="allMembersCheckboxChanged($event)" [disabled]="groupMembers==null || grouping==null">
+            Tots
+          </mat-checkbox>
+	</div>
+        <mat-form-field>
+          <wifi-member-list #memberList formControlName="members" placeholder="Membres de l'agrupament" (onMemberListChanged)="wifiMembersChanged($event)" class="wifi-member-list">
+          </wifi-member-list>
+          <mat-hint align="start">{{memberList.value?.length}} membres</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+  <form *ngIf="!smallWidth" [formGroup]="groupingForm" novalidate>
+    <mat-horizontal-stepper linear="true">
+      <mat-step label="Identificació" [completed]="grouping!=null && groupingForm.valid">
+        <div class="identity-step">
+	  <mat-form-field>
+            <input matInput formControlName="name" placeholder="Nom">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="description" placeholder="Descripció">
+          </mat-form-field>
+          <div>
+            <button mat-raised-button color="warn" [disabled]="grouping==null" (click)="revert()">Descarta</button>
+            <button mat-raised-button matStepperNext color="primary" [disabled]="grouping==null || groupingForm.invalid" type="button">Següent</button>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step label="Membres">
+        <div class="members-step">
+          <mat-form-field>
+            <mat-select [(value)]="selectedGroup" (selectionChange)="groupSelectChanged($event)" placeholder="Grup" [disabled]="groups==null || grouping==null">
+              <mat-option *ngFor="let group of groups" [value]="group.cn">
+                {{group.displayName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="group-members-select">
+            <mat-form-field class="group-members-field">
+              <mat-select [(value)]="selectedGroupMembers" (selectionChange)="groupMemberSelectChanged($event)" placeholder="Membres del grup" [disabled]="groupMembers==null || grouping==null" multiple>
+                <mat-select-trigger>
+                  {{selectedGroupMembers?'('+selectedGroupMembers.length+(selectedGroupMembers.length>1?' seleccionats)':' seleccionat)'):''}}
+                </mat-select-trigger>
+                <mat-option *ngFor="let user of groupMembers" [value]="user.uid">
+                  {{user.displayName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-checkbox [checked]="allMembersSelected" [indeterminate]="someMembersSelected" (change)="allMembersCheckboxChanged($event)" [disabled]="groupMembers==null || grouping==null">
+              Tots
+            </mat-checkbox>
+          </div>
+          <mat-form-field>
+            <wifi-member-list #memberList formControlName="members" placeholder="Membres de l'agrupament" (onMemberListChanged)="wifiMembersChanged($event)" class="wifi-member-list">
+            </wifi-member-list>
+            <mat-hint align="end">{{memberList.value?.length}} membres</mat-hint>
+          </mat-form-field>
+          <div>
+            <!--<button mat-raised-button matStepperPrevious color="primary" [disabled]="grouping==null" type="button">Anterior</button>-->
+            <button mat-raised-button color="primary" [disabled]="groupingForm.pristine || groupingForm.invalid" (click)="submit()">Desa</button>
+            <button mat-raised-button color="warn" [disabled]="grouping==null" (click)="revert()">Descarta</button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </form>
+</mat-card>

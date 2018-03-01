@@ -1,0 +1,34 @@
+<schedule-detail [schedule]="selectedSchedule" (onSaved)="onSaved($event)"></schedule-detail>
+<button mat-fab color="primary" [disabled]="selectedSchedule!=null" (click)="addNewSchedule()" class="wifi-add-button">
+  <mat-icon>add</mat-icon>
+</button>
+<mat-table [dataSource]="schedulesDataSource" class="wifi-table">
+  <ng-container matColumnDef="grouping">
+    <mat-header-cell *matHeaderCellDef>Agrupament</mat-header-cell>
+    <mat-cell *matCellDef="let schedule">{{schedule.grouping_name}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="start">
+    <mat-header-cell *matHeaderCellDef>Inici</mat-header-cell>
+    <mat-cell *matCellDef="let schedule">{{schedule.start}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="end">
+    <mat-header-cell *matHeaderCellDef>Final</mat-header-cell>
+    <mat-cell *matCellDef="let schedule">{{schedule.end}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let schedule">
+      <div style="display:flex;">
+        <span class="fill"></span>
+        <button mat-icon-button color="primary" [disabled]="selectedSchedule!=null" (click)="selectedSchedule=schedule">
+          <mat-icon>mode_edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" [disabled]="selectedSchedule!=null" (click)="deleteSchedule(schedule)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="['grouping', 'start', 'end', 'actions']"></mat-header-row>
+  <mat-row *matRowDef="let rowData; columns: ['grouping', 'start', 'end', 'actions']"></mat-row>
+</mat-table>

@@ -1,0 +1,17 @@
+<mat-card class="schedule-form">
+  <form [formGroup]="scheduleForm" novalidate>
+    <div class="data-input">
+      <mat-form-field>
+        <mat-select formControlName="grouping_id" placeholder="Agrupament">
+          <mat-option *ngFor="let grouping of groupings" [value]="grouping._id">
+            {{grouping.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-raised-button color="warn" [disabled]="schedule==null" (click)="revert()">Descarta</button>
+        <button mat-raised-button color="primary" [disabled]="scheduleForm.pristine || scheduleForm.invalid" (click)="submit()">Desa</button>
+      </div>
+    </div>
+  </form>
+</mat-card>
