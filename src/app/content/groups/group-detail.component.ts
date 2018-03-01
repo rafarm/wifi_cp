@@ -18,8 +18,8 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Observable } from 'rxjs/Observable';
 
 import { ContentService } from '../content.service';
-import { MemberListComponent } from '../member-list.component';
-import { MemberListChange } from '../member-list.component';
+import { MemberListComponent } from './member-list.component';
+import { MemberListChange } from './member-list.component';
 
 import { Group } from '../../data-model';
 import { User } from '../../data-model';

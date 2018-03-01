@@ -13,7 +13,8 @@ import { SchedulesComponent } from './schedules/schedules.component';
 import { ScheduleDetailComponent } from './schedules/schedule-detail.component';
 import { GroupsComponent } from './groups/groups.component';
 import { GroupDetailComponent } from './groups/group-detail.component';
-import { MemberListComponent } from './member-list.component';
+import { MemberListComponent } from './groups/member-list.component';
+import { DatetimePickerComponent } from './schedules/datetime-picker.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { MemberListComponent } from './member-list.component';
     ScheduleDetailComponent,
     GroupsComponent,
     GroupDetailComponent,
-    MemberListComponent
+    MemberListComponent,
+    DatetimePickerComponent
   ],
   providers: [
     ContentService

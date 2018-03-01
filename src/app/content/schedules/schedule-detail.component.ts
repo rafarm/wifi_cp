@@ -46,8 +46,8 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
   ngOnChanges() {
     const sch = this.schedule || new Schedule();
     this.scheduleForm.reset({
-      grouping_id: sch.grouping_id/*,
-      start:       sch.start,
+      grouping_id: sch.grouping_id,
+      start:       sch.start/*,
       end:     gr.members*/
     });
     this.schedule != null ? this.scheduleForm.enable() : this.scheduleForm.disable();
@@ -55,8 +55,8 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
 
   createForm() {
     this.scheduleForm = this.fb.group({
-      grouping_id: ['', Validators.required ]/*,
-      description: '',
+      grouping_id: ['', Validators.required],
+      start: [null, Validators.required]/*,
       members: []*/
     });
     this.scheduleForm.disable();

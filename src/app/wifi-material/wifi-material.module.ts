@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatNativeDateModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,10 +13,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   imports: [
+    MatNativeDateModule,
     MatCardModule,
     MatToolbarModule,
     MatButtonModule,
@@ -29,9 +32,11 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatCheckboxModule,
     MatChipsModule,
     MatStepperModule,
+    MatDatepickerModule,
     LayoutModule
   ],
   exports: [
+    MatNativeDateModule,
     MatCardModule,
     MatToolbarModule,
     MatButtonModule,
@@ -45,6 +50,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatCheckboxModule,
     MatChipsModule,
     MatStepperModule,
+    MatDatepickerModule,
     LayoutModule
   ]
 })

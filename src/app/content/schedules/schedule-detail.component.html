@@ -8,6 +8,9 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field>
+        <wifi-datetime-picker formControlName="start"></wifi-datetime-picker>
+      </mat-form-field>
       <div>
         <button mat-raised-button color="warn" [disabled]="schedule==null" (click)="revert()">Descarta</button>
         <button mat-raised-button color="primary" [disabled]="scheduleForm.pristine || scheduleForm.invalid" (click)="submit()">Desa</button>
