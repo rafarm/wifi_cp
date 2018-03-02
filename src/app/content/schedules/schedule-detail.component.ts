@@ -3,6 +3,7 @@ import { Component,
 	 Output,
 	 OnInit,
 	 OnChanges,
+         //ViewChild,
 	 EventEmitter } from '@angular/core';
 import { FormBuilder,
 	 FormGroup,
@@ -10,9 +11,11 @@ import { FormBuilder,
 import { MatDialog,
          MatDialogRef,
          MAT_DIALOG_DATA } from '@angular/material/dialog';
+//import { MatInput } from '@angular/material/input';
 //import { MatSelectChange } from '@angular/material/select';
 import { Observable } from 'rxjs/Observable';
 
+import { ConfigService } from '../../core/config.service';
 import { ContentService } from '../content.service';
 
 import { Schedule } from '../../data-model';
@@ -29,11 +32,18 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
   @Input() schedule: Schedule;
   @Output() onSaved = new EventEmitter<boolean>();
 
+  //@ViewChild(MatInput)
+  //private startInput: MatInput;
+  startInputType: string = 'text';
+
+  allowed: number;
+
   scheduleForm: FormGroup;
 
   groupings: Grouping[] = null;
 
   constructor(private fb: FormBuilder,
+              private configService: ConfigService,
               private contentService: ContentService,
               public dialog: MatDialog) {
     this.createForm();
@@ -50,7 +60,14 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
       start:       sch.start/*,
       end:     gr.members*/
     });
-    this.schedule != null ? this.scheduleForm.enable() : this.scheduleForm.disable();
+    if (this.schedule != null) {
+      this.scheduleForm.enable() 
+      this.startInputType = 'datetime-local';
+    }
+    else {
+      this.scheduleForm.disable();
+      this.startInputType = 'text';
+    }
   }
 
   createForm() {
@@ -61,6 +78,25 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
     });
     this.scheduleForm.disable();
   }
+
+  get minAllowed(): number {
+    return this.configService.minAllowed;
+  }
+
+  get maxAllowed(): number {
+    return this.configService.maxAllowed;
+  }
+
+  get allowedStep(): number {
+    return this.configService.allowedStep;
+  }
+
+  /*
+  get startInputType(): string {
+    let start = this.scheduleForm.value.start;
+    return start != null && start != '' ? 'datetime-local' : 'text';
+  }
+  */
 
   submit() {
     this.contentService.updateSchedule(this.prepareSaveSchedule())
@@ -103,7 +139,7 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
       saveSchedule.owner_id = this.schedule.owner_id;
     }
     saveSchedule.grouping_id = formModel.grouping_id as string;
-    //saveSchedule.start = formModel.start as Date;
+    saveSchedule.start = formModel.start as Date;
     //saveSchedule.end = formModel.end as Date;
     
     return saveSchedule

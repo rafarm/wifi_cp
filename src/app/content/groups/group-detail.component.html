@@ -91,9 +91,9 @@
             <mat-hint align="end">{{memberList.value?.length}} membres</mat-hint>
           </mat-form-field>
           <div>
-            <!--<button mat-raised-button matStepperPrevious color="primary" [disabled]="grouping==null" type="button">Anterior</button>-->
+            <button mat-raised-button matStepperPrevious color="primary" [disabled]="grouping==null" type="button">Anterior</button>
+            <!--<button mat-raised-button color="warn" [disabled]="grouping==null" (click)="revert()">Descarta</button>-->
             <button mat-raised-button color="primary" [disabled]="groupingForm.pristine || groupingForm.invalid" (click)="submit()">Desa</button>
-            <button mat-raised-button color="warn" [disabled]="grouping==null" (click)="revert()">Descarta</button>
           </div>
         </div>
       </mat-step>

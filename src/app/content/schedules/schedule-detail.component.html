@@ -9,8 +9,9 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <wifi-datetime-picker formControlName="start"></wifi-datetime-picker>
+        <input matInput [type]="startInputType" formControlName="start" placeholder="Inici">
       </mat-form-field>
+        <mat-slider [min]="minAllowed" [max]="maxAllowed" [step]="allowedStep" [(value)]="allowed" thumbLabel tickInterval="1"></mat-slider>
       <div>
         <button mat-raised-button color="warn" [disabled]="schedule==null" (click)="revert()">Descarta</button>
         <button mat-raised-button color="primary" [disabled]="scheduleForm.pristine || scheduleForm.invalid" (click)="submit()">Desa</button>

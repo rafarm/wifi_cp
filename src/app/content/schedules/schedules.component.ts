@@ -53,7 +53,7 @@ export class SchedulesComponent implements OnInit/*, CanComponentDeactivate*/ {
 
     let dialogRef = this.dialog.open(ConfirmationComponent, {
       data: {
-        title: 'Eliminar autoritzacií',
+        title: 'Eliminar autorització',
         content: "Voleu eliminar l'autorització per a l'agrupament " + schedule.grouping_name + "?",
         cancel: 'Cancel·la',
         action: 'Elimina'

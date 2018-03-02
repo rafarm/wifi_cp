@@ -14,7 +14,6 @@ import { ScheduleDetailComponent } from './schedules/schedule-detail.component';
 import { GroupsComponent } from './groups/groups.component';
 import { GroupDetailComponent } from './groups/group-detail.component';
 import { MemberListComponent } from './groups/member-list.component';
-import { DatetimePickerComponent } from './schedules/datetime-picker.component';
 
 @NgModule({
   imports: [
@@ -29,8 +28,7 @@ import { DatetimePickerComponent } from './schedules/datetime-picker.component';
     ScheduleDetailComponent,
     GroupsComponent,
     GroupDetailComponent,
-    MemberListComponent,
-    DatetimePickerComponent
+    MemberListComponent
   ],
   providers: [
     ContentService

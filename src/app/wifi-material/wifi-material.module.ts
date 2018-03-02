@@ -14,6 +14,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSliderModule } from '@angular/material/slider';
 import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatChipsModule,
     MatStepperModule,
     MatDatepickerModule,
+    MatSliderModule,
     LayoutModule
   ],
   exports: [
@@ -51,6 +53,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatChipsModule,
     MatStepperModule,
     MatDatepickerModule,
+    MatSliderModule,
     LayoutModule
   ]
 })

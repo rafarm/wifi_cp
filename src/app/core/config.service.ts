@@ -18,4 +18,22 @@ export class ConfigService {
     get schoolName(): string {
 	return this._schoolName;
     }
+
+    /* Minimum period of allowance */
+    private _minAllowed = 5;
+    get minAllowed(): number {
+        return this._minAllowed;
+    }
+
+    /* Maximum period of allowance */
+    private _maxAllowed = 55;
+    get maxAllowed(): number {
+        return this._maxAllowed;
+    }
+
+    /* Allowance period increments */
+    private _allowedStep = 5;
+    get allowedStep(): number {
+        return this._allowedStep;
+    }
 }
