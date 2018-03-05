@@ -11,7 +11,13 @@
       <mat-form-field>
         <input matInput [type]="startInputType" formControlName="start" placeholder="Inici">
       </mat-form-field>
-        <mat-slider [min]="minAllowed" [max]="maxAllowed" [step]="allowedStep" [(value)]="allowed" thumbLabel tickInterval="1"></mat-slider>
+      <mat-form-field>
+        <mat-select formControlName="duration" placeholder="Durada">
+          <mat-option *ngFor="let duration of durations" [value]="duration.value">
+            {{duration.label}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <div>
         <button mat-raised-button color="warn" [disabled]="schedule==null" (click)="revert()">Descarta</button>
         <button mat-raised-button color="primary" [disabled]="scheduleForm.pristine || scheduleForm.invalid" (click)="submit()">Desa</button>

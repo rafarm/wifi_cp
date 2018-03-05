@@ -160,7 +160,9 @@ export class MemberListComponent implements OnDestroy, MatFormFieldControl<User[
   }
 
   private cloneMembersArray(members: User[]): User[] {
-    return members.map(user => user);
+    return members.map(user => user).sort((a, b) => {
+      return a.displayName.localeCompare(b.displayName);
+    });
   }
 
 }

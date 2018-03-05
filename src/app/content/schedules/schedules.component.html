@@ -9,11 +9,11 @@
   </ng-container>
   <ng-container matColumnDef="start">
     <mat-header-cell *matHeaderCellDef>Inici</mat-header-cell>
-    <mat-cell *matCellDef="let schedule">{{schedule.start | date:'medium'}}</mat-cell>
+    <mat-cell *matCellDef="let schedule">{{schedule.start | date:'dd/MM/yy, HH:mm'}}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="end">
     <mat-header-cell *matHeaderCellDef>Final</mat-header-cell>
-    <mat-cell *matCellDef="let schedule">{{schedule.end | date:'medium'}}</mat-cell>
+    <mat-cell *matCellDef="let schedule">{{schedule.end | date:'dd/MM/yy, HH:mm'}}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="actions">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>

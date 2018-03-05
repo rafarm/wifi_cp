@@ -23,6 +23,10 @@ import { Grouping } from '../../data-model';
 import { ConfirmationComponent } from '../../utils/confirmation.component';
 
 
+class DurationItem {
+  constructor(public value: number, public label: string){};
+}
+
 @Component({
   selector: 'schedule-detail',
   templateUrl: './schedule-detail.component.html',
@@ -36,11 +40,10 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
   //private startInput: MatInput;
   startInputType: string = 'text';
 
-  allowed: number;
-
   scheduleForm: FormGroup;
 
   groupings: Grouping[] = null;
+  durations: DurationItem[] = [];
 
   constructor(private fb: FormBuilder,
               private configService: ConfigService,
@@ -51,14 +54,20 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.contentService.getGroupings(true).subscribe((groupings:Grouping[]) => this.groupings = groupings);
+    this.populateDurationsArray();
   }
 
   ngOnChanges() {
     const sch = this.schedule || new Schedule();
+    let start = null;
+    if (sch.start != null) {
+      start = new Date(sch.start).toISOString().slice(0, -1);
+    }
+    
     this.scheduleForm.reset({
       grouping_id: sch.grouping_id,
-      start:       sch.start/*,
-      end:     gr.members*/
+      start:       start,
+      duration:    this.computeDuration(sch)
     });
     if (this.schedule != null) {
       this.scheduleForm.enable() 
@@ -73,30 +82,41 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
   createForm() {
     this.scheduleForm = this.fb.group({
       grouping_id: ['', Validators.required],
-      start: [null, Validators.required]/*,
-      members: []*/
+      start: [null, Validators.required],
+      duration: [null, Validators.required]
     });
     this.scheduleForm.disable();
   }
 
-  get minAllowed(): number {
-    return this.configService.minAllowed;
+  private populateDurationsArray() {
+    const minDuration = this.configService.minAllowed;
+    const maxDuration = this.configService.maxAllowed;
+    const durationStep = this.configService.allowedStep;
+
+    for (var i = minDuration; i <= maxDuration; i += durationStep) {
+      this.durations.push(new DurationItem(i, '' + i + ' min.'));
+    }
   }
 
-  get maxAllowed(): number {
-    return this.configService.maxAllowed;
-  }
+  private computeDuration(sch: Schedule): number | null {
+    const minDuration = this.configService.minAllowed;
+    const maxDuration = this.configService.maxAllowed;
+    const durationStep = this.configService.allowedStep;
+    
+    if (sch.start != null && sch.end != null) {
+        // Duration in minutes
+        let start = new Date(sch.start);
+        let end = new Date(sch.end);
+        let duration = (end.getTime() - start.getTime()) / 60000;
 
-  get allowedStep(): number {
-    return this.configService.allowedStep;
-  }
+        // Round to corresponding step
+        duration =  Math.floor(duration / durationStep) * durationStep;
 
-  /*
-  get startInputType(): string {
-    let start = this.scheduleForm.value.start;
-    return start != null && start != '' ? 'datetime-local' : 'text';
+        return Math.min(maxDuration, Math.max(minDuration, duration));
+    }
+
+    return null;
   }
-  */
 
   submit() {
     this.contentService.updateSchedule(this.prepareSaveSchedule())
@@ -139,9 +159,13 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
       saveSchedule.owner_id = this.schedule.owner_id;
     }
     saveSchedule.grouping_id = formModel.grouping_id as string;
-    saveSchedule.start = formModel.start as Date;
-    //saveSchedule.end = formModel.end as Date;
+    saveSchedule.start = new Date(formModel.start) as Date;
+    saveSchedule.end = this.computeEnd(saveSchedule.start, formModel.duration) as Date;
     
     return saveSchedule
+  }
+
+  private computeEnd(start: Date, duration: number): Date {
+    return new Date(start.getTime() + duration * 60000);
   }
 }
