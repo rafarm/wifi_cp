@@ -4,8 +4,10 @@ var fs = require('fs');
 var app = express();
 var mongodb = require('./mongo_connection');
 var authenticate = require('./authenticate')(app, mongodb);
+var startRunloop = require('./runloop').start;
 
 var server = null;
+var runloop = null;
 
 // Connecting to database...
 mongodb.connect
@@ -16,12 +18,6 @@ mongodb.connect
 	app.set('views', 'web');
 	app.set('view engine', 'ejs');
 	
-	/*
-	app.use('*', (req, res, next) => {
-	    console.log(req.originalUrl);
-	    next();
-	});
-	*/
 	// Catch unauthorized api calls...
 	app.use('/api', (req, res, next) => {
 	    if ( !req.isAuthenticated || !req.isAuthenticated() ) {
@@ -77,6 +73,7 @@ mongodb.connect
 	// Starting server...
 	server = app.listen(process.env.npm_package_config_port, function () {
 	//server = https.createServer(ssl_options, app).listen(process.env.npm_package_config_port, function () {
+            runloop = startRunloop();
     	    console.log('Wifi panel started.');
     	    console.log('Listening on port '+process.env.npm_package_config_port+'.');
 	});	
@@ -94,6 +91,7 @@ mongodb.connect
 function closeDBConnectionAndExit() {
     console.info('Stopping server...');
     server.close();
+    clearInterval(runloop);
     console.info('Closing database connection...');
     mongodb.client.close();
     process.exit();

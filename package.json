@@ -26,7 +26,10 @@
     "ldap_groupsSearchBase": "ou=grupos,dc=intranet,dc=com",
     "ldap_groupsSearchFilter": "(displayName=GrpAc_*)",
     "ldap_usersSearchBase": "ou=usuarios,dc=intranet,dc=com",
-    "cookie_max_age": "3600000"
+    "ldap_authGroup": "cn=wifi,ou=grupos,dc=intranet,dc=com",
+    "ldap_authGroup_attribute": "memberUid",
+    "cookie_max_age": "3600000",
+    "runloop_interval": 60000
   },
   "dependencies": {
     "@angular/animations": "^5.2.6",

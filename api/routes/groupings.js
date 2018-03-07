@@ -23,7 +23,7 @@ router.get('/', function(req, res) {
         };
     }
     
-    groupingsCollection.find({owner_id: req.user.uid}, projection).toArray()
+    groupingsCollection.find({owner_id: req.user.uid}, projection).sort([['name', 1]]).toArray()
         .then(function(groups) {
             wrapResult(res, groups);
         })

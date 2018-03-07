@@ -61,7 +61,8 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
     const sch = this.schedule || new Schedule();
     let start = null;
     if (sch.start != null) {
-      start = new Date(sch.start).toISOString().slice(0, -1);
+      let zoneOffset = new Date().getTimezoneOffset();
+      start = this.computeEnd(new Date(sch.start), - zoneOffset).toISOString().slice(0, -1);
     }
     
     this.scheduleForm.reset({
@@ -159,8 +160,8 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
       saveSchedule.owner_id = this.schedule.owner_id;
     }
     saveSchedule.grouping_id = formModel.grouping_id as string;
-    saveSchedule.start = new Date(formModel.start) as Date;
-    saveSchedule.end = this.computeEnd(saveSchedule.start, formModel.duration) as Date;
+    saveSchedule.start = new Date(formModel.start);
+    saveSchedule.end = this.computeEnd(saveSchedule.start, formModel.duration);
     
     return saveSchedule
   }

@@ -40,20 +40,15 @@ router.get('/', function(req, res) {
                 start: 1,
                 end: 1
             }
+        },
+        {
+            $sort: {
+                start: 1
+            }
         }
     ];
 
     return performAggregation(res, schedulesCollection, pipe);
-
-    /*
-    schedulesCollection.find({owner_id: req.user.uid}).toArray()
-        .then(function(schedules) {
-            wrapResult(res, schedules);
-        })
-        .catch(function(err) {
-	    resError(res, err);
-        });
-    */
 });
 
 /*
@@ -80,9 +75,13 @@ router.delete('/:id', function(req, res) {
  */
 router.put('/', bodyParser.json(), function(req, res) {
     const schedule = req.body;
+
     schedule._id = schedule._id === '' ? new ObjectID() : new ObjectID(schedule._id);
     schedule.grouping_id = new ObjectID(schedule.grouping_id);
+    schedule.start = new Date(schedule.start);
+    schedule.end = new Date(schedule.end);
     if (schedule.owner_id === '') schedule.owner_id = req.user.uid;
+    
     schedulesCollection.updateOne(
         { '_id': schedule._id },
         { $set: schedule },
