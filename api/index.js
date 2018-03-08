@@ -66,14 +66,14 @@ mongodb.connect
         });
 
 	// Set SSL certs...
-	//var ssl_options = {
-	//    key: fs.readFileSync(process.env.npm_package_config_key),
-	//    cert: fs.readFileSync(process.env.npm_package_config_cert)
-	//};
+	var ssl_options = {
+	    key: fs.readFileSync(process.env.npm_package_config_key),
+	    cert: fs.readFileSync(process.env.npm_package_config_cert)
+	};
 
 	// Starting server...
-	server = app.listen(process.env.npm_package_config_port, function () {
-	//server = https.createServer(ssl_options, app).listen(process.env.npm_package_config_port, function () {
+	//server = app.listen(process.env.npm_package_config_port, function () {
+	server = https.createServer(ssl_options, app).listen(process.env.npm_package_config_port, function () {
             runloop = startRunloop();
     	    console.log('Wifi panel started.');
     	    console.log('Listening on port '+process.env.npm_package_config_port+'.');

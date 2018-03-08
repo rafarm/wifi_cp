@@ -62,13 +62,16 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
     const sch = this.schedule || new Schedule();
     let start = null;
     if (sch.start != null) {
-      let zoneOffset = new Date().getTimezoneOffset();
-      start = this.computeEnd(new Date(sch.start), - zoneOffset).toISOString().slice(0, -1);
+      start = new Date(sch.start);
+      let zoneOffset = start.getTimezoneOffset();
+      start = this.computeEnd(start, - zoneOffset).toISOString().slice(0, -1);
+      
     }
     let end = null;
     if (sch.end != null) {
-      let zoneOffset = new Date().getTimezoneOffset();
-      end = this.computeEnd(new Date(sch.end), - zoneOffset).toISOString().slice(0, -1);
+      end = new Date(sch.end);
+      let zoneOffset = end.getTimezoneOffset();
+      end = this.computeEnd(end, - zoneOffset).toISOString().slice(0, -1);
     }
 
     let reset = null;
