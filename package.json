@@ -29,7 +29,8 @@
     "ldap_authGroup": "cn=wifi,ou=grupos,dc=intranet,dc=com",
     "ldap_authGroup_attribute": "memberUid",
     "cookie_max_age": "3600000",
-    "runloop_interval": 60000
+    "runloop_interval": 60000,
+    "admin_uid": "rrubiom"
   },
   "dependencies": {
     "@angular/animations": "^5.2.6",

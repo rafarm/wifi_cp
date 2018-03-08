@@ -9,6 +9,7 @@ import 'rxjs/add/operator/concatMap';
 import 'rxjs/add/operator/retryWhen';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/throw';
 
 import { ConfigService }	from './config.service';
 import { ConfirmationComponent }       from '../utils/confirmation.component';

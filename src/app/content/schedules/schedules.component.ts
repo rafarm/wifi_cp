@@ -74,4 +74,12 @@ export class SchedulesComponent implements OnInit/*, CanComponentDeactivate*/ {
       this.ngOnInit();
     }
   }
+
+  classesForCell(end: string): any {
+    let classes = {};
+    let current = new Date().toISOString();
+    classes['schedule-ended'] = end < current;
+    
+    return classes;
+  }
 }

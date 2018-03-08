@@ -61,6 +61,7 @@ mongodb.connect
 		
 		return res.redirect('/login');
 	    }
+            
             res.render('index', { user: req.user });
         });
 

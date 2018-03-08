@@ -36,6 +36,10 @@ module.exports = (app, mongodb) => {
 	    .limit(1)
 	    .next((err, user) => {
 		if (err) return done(err);
+                if (user != undefined) {
+                    user['isAdmin'] = user.uid == process.env.npm_package_config_admin_uid;
+                }
+
 		return done(null, user);
 	    });
     });
@@ -58,7 +62,7 @@ module.exports = (app, mongodb) => {
                 const db_user = {
                     uid: user.uid,
                     dn: user.dn,
-                    cn: user.cn,
+                    displayName: user.displayName,
                     uidNumber: user.uidNumber,
                     gidNumber: user.gidNumber
                 }

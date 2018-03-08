@@ -9,14 +9,15 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <input matInput [type]="startInputType" formControlName="start" placeholder="Inici">
+        <input matInput [type]="dateInputType" formControlName="start" placeholder="Inici">
       </mat-form-field>
       <mat-form-field>
-        <mat-select formControlName="duration" placeholder="Durada">
+        <mat-select *ngIf="!isAdmin" formControlName="duration" placeholder="Durada">
           <mat-option *ngFor="let duration of durations" [value]="duration.value">
             {{duration.label}}
           </mat-option>
         </mat-select>
+        <input matInput *ngIf="isAdmin" [type]="dateInputType" formControlName="end" placeholder="Final">
       </mat-form-field>
       <div>
         <button mat-raised-button color="warn" [disabled]="schedule==null" (click)="revert()">Descarta</button>

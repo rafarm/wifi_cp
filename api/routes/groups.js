@@ -26,9 +26,10 @@ router.get('/', function(req, res) {
             const groups = [];
             const ops = {
 		scope: 'sub',
-		filter: process.env.npm_package_config_ldap_groupsSearchFilter,
+                filter: req.user.isAdmin ? '(displayName=*)' : process.env.npm_package_config_ldap_groupsSearchFilter,
 		attributes: ['cn', 'displayName']
 	    }
+
 	    client.search(
                 process.env.npm_package_config_ldap_groupsSearchBase,
 		ops,

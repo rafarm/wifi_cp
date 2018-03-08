@@ -12,6 +12,7 @@ export class AppComponent {
   user: string;
 
   constructor() {
-    this.user = _user.displayName;
+    let admin = _user.isAdmin ? ' (admin)' : '';
+    this.user = _user.displayName + admin;
   }
 }

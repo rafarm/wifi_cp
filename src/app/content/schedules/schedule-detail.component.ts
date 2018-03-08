@@ -11,8 +11,6 @@ import { FormBuilder,
 import { MatDialog,
          MatDialogRef,
          MAT_DIALOG_DATA } from '@angular/material/dialog';
-//import { MatInput } from '@angular/material/input';
-//import { MatSelectChange } from '@angular/material/select';
 import { Observable } from 'rxjs/Observable';
 
 import { ConfigService } from '../../core/config.service';
@@ -22,6 +20,8 @@ import { Schedule } from '../../data-model';
 import { Grouping } from '../../data-model';
 import { ConfirmationComponent } from '../../utils/confirmation.component';
 
+
+declare var _user;
 
 class DurationItem {
   constructor(public value: number, public label: string){};
@@ -36,19 +36,20 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
   @Input() schedule: Schedule;
   @Output() onSaved = new EventEmitter<boolean>();
 
-  //@ViewChild(MatInput)
-  //private startInput: MatInput;
-  startInputType: string = 'text';
+  dateInputType: string = 'text';
 
   scheduleForm: FormGroup;
 
   groupings: Grouping[] = null;
   durations: DurationItem[] = [];
 
+  isAdmin: boolean = false;
+
   constructor(private fb: FormBuilder,
               private configService: ConfigService,
               private contentService: ContentService,
               public dialog: MatDialog) {
+    this.isAdmin = _user.isAdmin;
     this.createForm();
   }
 
@@ -64,28 +65,57 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
       let zoneOffset = new Date().getTimezoneOffset();
       start = this.computeEnd(new Date(sch.start), - zoneOffset).toISOString().slice(0, -1);
     }
+    let end = null;
+    if (sch.end != null) {
+      let zoneOffset = new Date().getTimezoneOffset();
+      end = this.computeEnd(new Date(sch.end), - zoneOffset).toISOString().slice(0, -1);
+    }
+
+    let reset = null;
+    if (this.isAdmin) {
+      reset = {
+        grouping_id: sch.grouping_id,
+        start:       start,
+        end:         end
+      };
+    }
+    else {
+      reset = {
+        gruping_id: sch.grouping_id,
+        start:       start,
+        duration:    this.computeDuration(sch)
+      };
+    }
     
-    this.scheduleForm.reset({
-      grouping_id: sch.grouping_id,
-      start:       start,
-      duration:    this.computeDuration(sch)
-    });
+    this.scheduleForm.reset(reset);
     if (this.schedule != null) {
       this.scheduleForm.enable() 
-      this.startInputType = 'datetime-local';
+      this.dateInputType = 'datetime-local';
     }
     else {
       this.scheduleForm.disable();
-      this.startInputType = 'text';
+      this.dateInputType = 'text';
     }
   }
 
   createForm() {
-    this.scheduleForm = this.fb.group({
-      grouping_id: ['', Validators.required],
-      start: [null, Validators.required],
-      duration: [null, Validators.required]
-    });
+    let form = null;
+    if (this.isAdmin) {
+      form = {
+        grouping_id: ['', Validators.required],
+        start: [null, Validators.required],
+        end: [null, Validators.required]
+      };
+    }
+    else {
+      form = {
+        grouping_id: ['', Validators.required],
+        start: [null, Validators.required],
+        duration: [null, Validators.required]
+      };
+    }
+
+    this.scheduleForm = this.fb.group(form);
     this.scheduleForm.disable();
   }
 
@@ -161,7 +191,7 @@ export class ScheduleDetailComponent implements OnInit, OnChanges {
     }
     saveSchedule.grouping_id = formModel.grouping_id as string;
     saveSchedule.start = new Date(formModel.start);
-    saveSchedule.end = this.computeEnd(saveSchedule.start, formModel.duration);
+    saveSchedule.end = this.isAdmin ? new Date(formModel.end) : this.computeEnd(saveSchedule.start, formModel.duration);
     
     return saveSchedule
   }

@@ -1,1 +1,4 @@
-
+.schedule-ended {
+  font-style: italic;
+  color: grey;
+}
